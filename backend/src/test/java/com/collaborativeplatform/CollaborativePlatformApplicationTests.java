@@ -1,4 +1,4 @@
-package com.collaborative.platform.collaborative_platform;
+package com.collaborativeplatform;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
