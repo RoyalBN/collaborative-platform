@@ -2,10 +2,9 @@ package com.collaborativeplatform.controller;
 
 import com.collaborativeplatform.model.User;
 import com.collaborativeplatform.repository.UserRepository;
+import com.collaborativeplatform.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -13,17 +12,35 @@ import java.util.List;
 @RequestMapping("/users")
 public class UsersController {
 
-  @Autowired
-  private UserRepository userRepository;
+  private final UserService userService;
+
+  public UsersController(UserService userService) {
+    this.userService = userService;
+  }
 
   @GetMapping
   public List<User> getAllUsers() {
-    return userRepository.findAll();
+    return userService.getAllUsers();
   }
 
-//  @GetMapping("/:id")
+  @GetMapping("/{userId}")
+  public User getUserById(@PathVariable Long userId) {
+    return userService.getUserById(userId);
+  }
 
-//  PostMapping
+  @PostMapping("/add")
+  public User addUser(@RequestBody User user) {
+    return userService.addUser(user);
+  }
 
+  @PostMapping("/update")
+  public User updateUser(@RequestBody User user) {
+    return userService.updateUser(user);
+  }
+
+  @DeleteMapping("/delete/{userId}")
+  public void deleteUser(@PathVariable Long userId) {
+    userService.deleteUser(userId);
+  }
 
 }
