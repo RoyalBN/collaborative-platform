@@ -4,9 +4,12 @@ import com.collaborativeplatform.model.User;
 import com.collaborativeplatform.repository.UserRepository;
 import com.collaborativeplatform.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
@@ -24,8 +27,10 @@ public class UsersController {
   }
 
   @GetMapping("/{userId}")
-  public User getUserById(@PathVariable Long userId) {
-    return userService.getUserById(userId);
+  public ResponseEntity<User> getUserById(@PathVariable Long userId) {
+    return userService.getUserById(userId)
+      .map(ResponseEntity::ok)
+      .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
   }
 
   @PostMapping("/add")
@@ -39,6 +44,7 @@ public class UsersController {
   }
 
   @DeleteMapping("/delete/{userId}")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
   public void deleteUser(@PathVariable Long userId) {
     userService.deleteUser(userId);
   }

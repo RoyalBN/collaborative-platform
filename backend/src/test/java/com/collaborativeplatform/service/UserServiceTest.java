@@ -3,6 +3,7 @@ package com.collaborativeplatform.service;
 import com.collaborativeplatform.model.User;
 import com.collaborativeplatform.repository.UserRepository;
 
+import org.checkerframework.checker.nullness.Opt;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -53,12 +54,23 @@ class UserServiceTest {
   void should_return_user_by_id() {
     when(userRepository.findById(1L)).thenReturn(Optional.of(user1));
 
-    User user = userService.getUserById(1L);
+    Optional<User> foundUser = userService.getUserById(1L);
 
-    assertNotNull(user);
-    assertEquals(user1.getId(), user.getId());
+    assertNotNull(foundUser);
+    assertEquals(user1.getId(), foundUser.get().getId());
     verify(userRepository, times(1)).findById(user1.getId());
   }
+
+  @Test
+  void should_return_empty_if_user_not_found() {
+    when(userRepository.findById(99L)).thenReturn(Optional.empty());
+
+    Optional<User> foundUser = userService.getUserById(99L);
+
+    assertTrue(foundUser.isEmpty());
+    verify(userRepository, times(1)).findById(99L);
+  }
+
 
   @Test
   void should_create_user_and_return_saved_user() {
