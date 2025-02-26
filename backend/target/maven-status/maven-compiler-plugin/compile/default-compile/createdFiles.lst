@@ -1,0 +1,4 @@
+com/collaborativeplatform/repository/UserRepository.class
+com/collaborativeplatform/CollaborativePlatformApplication.class
+com/collaborativeplatform/controller/UsersController.class
+com/collaborativeplatform/model/User.class

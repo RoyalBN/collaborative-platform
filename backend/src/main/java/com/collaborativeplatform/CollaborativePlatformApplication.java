@@ -1,4 +1,4 @@
-package com.collaborative.platform.collaborative_platform;
+package com.collaborativeplatform;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
